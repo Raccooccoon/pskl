@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="./src/screens/canvas/style.css">
+  <link href="https://fonts.googleapis.com/css?family=Jockey+One|VT323&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Oswald&display=swap" rel="stylesheet">
+  <script type="text/javascript" src="https://rawgit.com/antimatter15/jsgif/master/LZWEncoder.js"></script>
+  <script type="text/javascript" src="https://rawgit.com/antimatter15/jsgif/master/NeuQuant.js"></script>
+  <script type="text/javascript" src="https://rawgit.com/antimatter15/jsgif/master/GIFEncoder.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+  <title>Piskel Clone</title>
+</head>
+<body oncontextmenu="return false;">
+  <header>
+    <div class="header-name">Piskel Clone</div>
+    <button class="sign_in-btn">Sign in</button>
+  </header>
+  <main class="main">
+    <div class="left_section">
+      <div class="left_section-tools">
+        <div class="pen_size">
+          <div class="pen_size_cell pen_size-one_by_one" value="1">
+            <div class="pen_size-one_by_one-inner"></div>
+          </div>
+          <div class="pen_size_cell pen_size-two_by_two" value="2">
+            <div class="pen_size-two_by_two-inner"></div>
+          </div>
+          <div class="pen_size_cell pen_size-three_by_three" value="3">
+            <div class="pen_size-three_by_three-inner"></div>
+          </div>
+          <div class="pen_size_cell pen_size-four_by_four" value="4">
+            <div class="pen_size-four_by_four-inner"></div>
+          </div>
+        </div>
+        <div class="drawing_tool">
+          <div class="drawing_icon drawing_tool-pen"></div>
+          <div class="drawing_icon drawing_tool-paint_bucket"></div>
+          <div class="drawing_icon drawing_tool-eraser"></div>
+          <div class="drawing_icon drawing_tool-stroke"></div>
+        </div>
+        <div class="color_select">
+          <input type="color" class="color_select-primary"/>
+          <button class="revert_colors"></button>
+          <input type="color" class="color_select-secondary"/>
+        </div>
+        <div class="keyboard_controls"></div>
+        <div class="filter"></div>
+        <div class="modal_window">
+          <div class="modal_window__header">
+            <div class="modal_window__header-title">Keyboard shortcuts</div>
+            <div class="modal_window__header-exit">X</div>
+          </div>
+          <div class="modal_window__main">
+            <div class="tool_shortcuts">
+              <div class="tool_shortcuts__title">Tool shortcuts</div>
+              <div class="tool_shortcuts__item">
+                <div class="tool_shortcuts__item-key item-key">P</div>
+                <div class="tool_shortcuts__item-name">Pen tool</div>
+              </div>
+              <div class="tool_shortcuts__item">
+                <div class="tool_shortcuts__item-key item-key">B</div>
+                <div class="tool_shortcuts__item-name">Paint bucket tool</div>
+              </div>
+              <div class="tool_shortcuts__item">
+                <div class="tool_shortcuts__item-key item-key">E</div>
+                <div class="tool_shortcuts__item-name">Eraser tool</div>
+              </div>
+              <div class="tool_shortcuts__item">
+                <div class="tool_shortcuts__item-key item-key">S</div>
+                <div class="tool_shortcuts__item-name">Stroke tool</div>
+              </div>
+            </div>
+            <div class="misc_shortcuts">
+              <div class="misc_shortcuts__title">Misc shortcuts</div>
+              <div class="misc_shortcuts__item">
+                <div class="misc_shortcuts__item-key padded item-key">]</div>
+                <div class="misc_shortcuts__item-name">Increase pen size</div>
+              </div>
+              <div class="misc_shortcuts__item">
+                <div class="misc_shortcuts__item-key padded item-key">[</div>
+                <div class="misc_shortcuts__item-name">Decrease pen size</div>
+              </div>
+              <div class="misc_shortcuts__item">
+                <div class="misc_shortcuts__item-key item-key padded">&#8593;</div>
+                <div class="misc_shortcuts__item-name">Select previous frame</div>
+              </div>
+              <div class="misc_shortcuts__item">
+                <div class="misc_shortcuts__item-key item-key padded">&#8595;</div>
+                <div class="misc_shortcuts__item-name">Select next frame</div>
+              </div>
+              <div class="misc_shortcuts__item">
+                <div class="misc_shortcuts__item-key item-key">F</div>
+                <div class="misc_shortcuts__item-name">Duplicate selected frame</div>
+              </div>
+              <div class="misc_shortcuts__item">
+                <div class="misc_shortcuts__item-key item-key">D</div>
+                <div class="misc_shortcuts__item-name">Delete selected frame</div>
+              </div>
+              <div class="misc_shortcuts__item">
+                <div class="misc_shortcuts__item-key item-key">N</div>
+                <div class="misc_shortcuts__item-name">Add new frame</div>
+              </div>
+            </div>
+            <div class="color_shortcuts">
+              <div class="color_shortcuts__title">Color shortcuts</div>
+              <div class="color_shortcuts__item">
+                <div class="color_shortcuts__item-key item-key">X</div>
+                <div class="color_shortcuts__item-name">Swap primary/secondary colors</div>
+              </div>
+            </div>
+          </div>
+          <div class="modal_window__footer"></div>
+        </div>
+      </div>
+      <div class="left_section-frames_wrapper">
+        <div class="left_section-frames">  
+          <div class="frames_container">
+            <div class="frame draggable" draggable="true">
+              <canvas class="canvas_frame" width="96" height="96"></canvas>
+              <button class="button-frame_number"></button>
+              <button class="button-frame_delete" tooltip='delete'></button>
+              <button class="button-frame_move"></button>
+              <button class="button-frame_duplicate"></button>
+            </div>
+          </div>
+          <button class="add_new_frame"><div class="add_new_frame-desc">Add new frame</div></button>
+        </div>
+      </div>
+    </div>
+    <div class="center_section">
+      <canvas class="canvas" width="512" height="512"></canvas>
+    </div>
+    <div class="right_section">
+      <div class="right_section-tools">
+        <div class="canvas_animation_buttons">
+          <div class="popup_preview-btn"></div>
+        </div>
+        <div class="animation_preview_container">
+          <canvas class="canvas_animation_preview" width="200" height="200"></canvas>
+          <div class="canvas_animation_controls">
+            <div class="onion"></div>
+            <div class="fps_output"></div>
+            <div class="fps_input">
+              <input type="range" list="tickmarks" class="animation_speed" min="0" max="24" step="1" value="1">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="right_section-settings">
+        <div class="right_section-settings_tabs">
+          <div class="settings_tab-resize settings_tab "></div>
+          <div class="settings_tab-save settings_tab "></div>
+          <div class="settings_tab-export settings_tab "></div>
+        </div>
+        <div class="right_section-settings_content">
+          <div class="settings_content settings_content-resize">
+            <div class="settings_content-title">Resize</div>
+            <div class="canvas_size">
+              <div class="scale_one"></div>
+              <div class="scale_two"></div>
+              <div class="scale_three"></div>
+              <div class="range_number"></div>
+              <input type="range" list="tickmarks" class="range_line" min="1" max="3" step="1">
+              <datalist id="tickmarks">
+                <option class="options" value="32"></option>
+                <option class="options" value="64"></option>
+                <option class="options" value="128"></option>
+              </datalist>
+              <div class="canvas_width">
+                <div class="canvas_width__text">Width</div>
+                <input class="canvas_width__value" type="number" value="64" disabled>
+                <div class="canvas_width__text">px</div>
+              </div>
+              <div class="canvas_height">
+                <div class="canvas_height__text">Height</div>
+                <input class="canvas_height__value" type="number" value="64" disabled>
+                <div class="canvas_height__text">px</div>
+              </div>
+            </div>
+          </div>
+          <div class="settings_content settings_content-save">
+            <div class="settings_content-title">Sprite Information</div>
+          </div>
+          <div class="settings_content settings_content-export">
+            <div class="settings_content-title">Export</div>
+            <div class="resolution_scale">
+              <div class="resolution_text">Scale</div>
+              <input type="range" class="scale_input resolution_value" min="32" max="1024" step="32" value="480">
+              <div class="scale_output"></div>
+            </div>
+            <div class="resolution_box">
+              <div class="resolution_text">Resolution</div>
+              <input type="number" class="box_input box_input-left resolution_value" value="480">
+              <div class="resolution_text">x</div>
+              <input type="number" class="box_input box_input-right resolution_value" value="480">
+            </div>
+            <div class="format_tabs">
+              <div class="format_tab format_tab-gif format_tab-active">GIF</div>
+              <div class="format_tab format_tab-png">PNG</div>
+            </div>
+            <div class="format_info">
+              <div class="format_tab-content format_info-gif visible_options">
+                <div class="description_section">Convert your sprite to an animated GIF.</div>
+                <div class="tab_section-border loop_section">
+                  <input type="checkbox" name="loop" class="loop_repeatedly" checked>
+                  <label class="loop_label" for="loop">Loop repeatedly</label>
+                </div>
+                <div class="tab_section-border download_section">
+                  <button class="tab_btn download_section-btn download_gif-btn">Download</button>
+                  <div class="btn_desc">Download as an animated GIF.</div>
+                </div>
+                <div class="tab_section-border upload_section">
+                  <button class="tab_btn upload_section-btn">Upload</button>
+                  <div class="btn_desc">Upload as an animated GIF to a public URL.</div>
+                </div>
+              </div>
+              <div class="format_tab-content format_info-png">
+                <div class="description_section">Export your animation as a PNG spriteshit containing all frames.</div>
+                <div class="tab_section-border layout_options">
+                  <div class="section_desc">Spritesheet layout options:</div>
+                  <div class="spritesheet_options">
+                    <label for="spitesheet_cols" class="resolution_text">Columns</label>
+                    <input type="number" name="spitesheet_cols" class="spritesheet_input spitesheet_cols" min="1" max="1" value="1">
+                    <label for="spitesheet_rows" class="resolution_text">Rows</label>
+                    <input type="number" name="spitesheet_rows" class="spritesheet_input-disabled spitesheet_rows" value="1" disabled>
+                  </div>
+                </div>
+                <div class="tab_section-border file_export">
+                  <div class="section_desc">Spritesheet file export:</div>
+                  <div class="export_section">
+                    <button class="tab_btn download_section-btn PNG_file-btn">Download</button>
+                    <div class="btn_desc spritesheet_info">
+                      <div class="spritesheet_info spritesheet_output-frames"></div>
+                      <div class="spritesheet_info spritesheet_output-colrow"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab_section-border data_export">
+                  <div class="section_desc">Spriteseet data-uri export:</div>
+                  <div class="export_section">
+                    <button class="tab_btn download_section-btn PNG_data-btn">Open</button>
+                    <div class="btn_desc spritesheet_info">Open the spriteseet as a data-uri</div>
+                  </div>
+                </div>
+                <div class="tab_section-border data_export frame_export">
+                  <div class="section_desc">Selected frame export:</div>
+                  <div class="export_section">
+                    <button class="tab_btn download_section-btn PNG_frame-btn">Download</button>
+                    <div class="btn_desc spritesheet_info">Single frame as a PNG file</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/7.5.2/firebase.js"></script>
+    <script src="./src/screens/canvas/firebase_config.js"></script>
+    <script src="https://unpkg.com/fast-average-color/dist/index.min.js"></script>
+    <script src="./dist/bundle.js"></script>
+  </main>
+</body>
+</html>

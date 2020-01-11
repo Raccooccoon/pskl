@@ -1,0 +1,41 @@
+{
+  "name": "piskel",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest src/tests/",
+    "coverage": "jest --coverage --coverage-reporters=lcov",
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production",
+    "watch": "webpack --mode development --watch",
+    "start": "webpack-dev-server --mode development --open",
+    "lint": "eslint ./src/**/*.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@pencil.js/canvas-gif-encoder": "^1.1.1",
+    "babel-core": "^6.26.3",
+    "babel-jest": "^23.6.0",
+    "babel-preset-env": "^1.7.0",
+    "canvas": "^2.6.1",
+    "fast-average-color": "^5.2.1",
+    
+    "gif-frames": "^1.0.1",
+    "gifencoder": "^2.0.1",
+    "jest": "^24.0",
+    "jest-canvas-mock": "^2.2.0",
+    "jsdom": "^15.2.1",
+    "webpack": "^4.41.4",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.10.1"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.7.7",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "jest-environment-jsdom-fourteen": "^1.0.1"
+  }
+}
